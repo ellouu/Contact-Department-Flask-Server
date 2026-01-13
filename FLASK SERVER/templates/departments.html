@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Departments{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='departments.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <div class="logo-text">
+                <h1>Departments</h1>
+            </div>
+        </div>
+        <div class="page-title">
+            <i class="fas fa-sitemap"></i> Departments Management
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/" class="breadcrumb-item">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">
+            <i class="fas fa-sitemap"></i> Departments
+        </span>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button id="addDeptBtn" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Department
+        </button>
+        <button id="deleteSelectedBtn" class="btn btn-secondary">
+            <i class="fas fa-trash"></i> Delete Selected
+        </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+        <table id="departmentsTable">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>Index</th>
+                    <th>Department Name</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td><input type="checkbox" class="rowCheckbox"></td>
+                    <td>d{{ loop.index }}</td>
+                    <td>{{ row.name }}</td>
+                    <td><button class="editBtn">✏️ Edit</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="deptModal">
+        <div class="modal-card">
+            <h3><i class="fas fa-folder-plus"></i> Add / Edit Department</h3>
+            <div class="field">
+                <input id="deptNameInput" type="text" placeholder="Department Name">
+            </div>
+            <div class="actions">
+                <button id="saveDeptBtn" class="btn btn-primary">Save Department</button>
+                <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+            <div class="error" id="errorMsg"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='departments.js') }}"></script>
+{% endblock %}

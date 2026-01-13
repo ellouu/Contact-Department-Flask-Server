@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Assignments{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='assignments.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <div class="logo-text">
+                <h1>Assignments</h1>
+            </div>
+        </div>
+        <div class="page-title">
+            <i class="fas fa-link"></i> Assignments Management
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/" class="breadcrumb-item">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">
+            <i class="fas fa-link"></i> Assignments
+        </span>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <select id="contactSelect">
+            <option value="">Select Contact</option>
+            {% for c in contacts %}
+                <option value="{{ c.phone }}">{{ c.name }}</option>
+            {% endfor %}
+        </select>
+        <select id="deptSelect">
+            <option value="">Select Department</option>
+            {% for d in departments %}
+                <option value="{{ d.name }}">{{ d.name }}</option>
+            {% endfor %}
+        </select>
+        <button id="assignBtn" class="btn btn-primary">
+            <i class="fas fa-link"></i> Assign
+        </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+        <table id="assignmentsTable">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='assignments.js') }}"></script>
+{% endblock %}

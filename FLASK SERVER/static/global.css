@@ -1,0 +1,305 @@
+/* ==================== GLOBAL STYLES - HIGHEST PRIORITY ==================== */
+:root {
+    --primary: #2acf15;
+    --primary-dark: #1f9e0f;
+    --primary-light: rgba(42, 207, 21, 0.1);
+    --secondary: #6366f1;
+    --dark: #1a1a1a;
+    --darker: #0f0f0f;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --font-size-base: 1rem;
+    --font-scale: 1;
+}
+
+/* RESET AND FORCE FONT SCALING ON EVERY ELEMENT */
+html {
+    font-size: calc(16px * var(--font-scale)) !important;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+    color: var(--light);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: inherit !important;
+}
+
+/* FORCE EVERY SINGLE TEXT ELEMENT TO INHERIT FONT SIZE */
+* {
+    font-size: inherit !important;
+    line-height: 1.5 !important;
+}
+
+/* Explicitly target every possible text element */
+div, span, p, h1, h2, h3, h4, h5, h6,
+a, button, input, textarea, select, label,
+table, th, td, tr,
+li, ul, ol,
+section, article, header, footer, nav, main,
+.dashboard, .container, .header, .logo, .logo-text, .page-title,
+.breadcrumb, .breadcrumb-item, .breadcrumb-separator,
+.stats-bar, .stat-item, .stat-number, .stat-label,
+.main-grid, .feature-cards, .feature-card, .card-icon, .card-content,
+.stats-overview, .stat-chart, .stat-row, .stat-info, .stat-color, .stat-bar, .stat-progress, .stat-value,
+.quick-actions, .action-buttons, .action-btn,
+.controls, .search-box, .btn, .btn-primary, .btn-secondary,
+.table-container, table, thead, tbody, th, td,
+.modal, .modal-card, .field, .error,
+.editBtn, .cvUploadBtn, .cvViewBtn, .mapBtn, .scheduleBtn, .notesBtn, .deleteBtn,
+.status-dot, .distance-display,
+.interview-timeline, .timeline-progress, .timeline-marker,
+.rating-dropdown, .rating-display, .rating-stars, .rating-options, .rating-option,
+.accessibility-menu, .accessibility-toggle, .accessibility-panel,
+.accessibility-option, .accessibility-btn, .theme-buttons, .color-buttons, .font-buttons,
+.font-controls, .font-size-btn, .font-size-display {
+    font-size: inherit !important;
+}
+
+/* Font Size Scaling */
+body.font-small {
+    --font-scale: 0.875;
+}
+
+body.font-large {
+    --font-scale: 1.125;
+}
+
+body.font-xlarge {
+    --font-scale: 1.25;
+}
+
+body.font-xxlarge {
+    --font-scale: 1.5;
+}
+
+/* Accessibility Features */
+.accessibility-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.accessibility-toggle {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.accessibility-toggle:hover {
+    transform: scale(1.1);
+    background: var(--primary-dark);
+}
+
+.accessibility-panel {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: var(--dark);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 280px;
+    backdrop-filter: blur(10px);
+    display: none;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.accessibility-panel.open {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.accessibility-option {
+    margin-bottom: 15px;
+}
+
+.accessibility-option h4 {
+    margin: 0 0 10px 0;
+    color: var(--light);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.theme-buttons, .color-buttons, .font-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.accessibility-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--light);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 60px;
+}
+
+.accessibility-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.accessibility-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.font-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.font-size-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--light);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.font-size-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.font-size-display {
+    font-size: 12px;
+    color: var(--light);
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Color Blind Modes */
+body.colorblind-protanopia {
+    --primary: #0072B2;
+    --secondary: #009E73;
+    --success: #009E73;
+    --warning: #E69F00;
+    --danger: #D55E00;
+}
+
+body.colorblind-deuteranopia {
+    --primary: #0072B2;
+    --secondary: #009E73;
+    --success: #009E73;
+    --warning: #E69F00;
+    --danger: #CC79A7;
+}
+
+body.colorblind-tritanopia {
+    --primary: #FF6B9D;
+    --secondary: #6B48FF;
+    --success: #48C9B0;
+    --warning: #FFB142;
+    --danger: #FF5252;
+}
+
+body.high-contrast {
+    --primary: #00FF00;
+    --secondary: #FFFF00;
+    --success: #00FF00;
+    --warning: #FFFF00;
+    --danger: #FF0000;
+    --dark: #000000;
+    --darker: #000000;
+    --light: #FFFFFF;
+    --gray: #CCCCCC;
+}
+
+/* Light Theme */
+body.light-theme {
+    --dark: #ffffff;
+    --darker: #f8fafc;
+    --light: #1a1a1a;
+    --gray: #6b7280;
+    --primary-light: rgba(42, 207, 21, 0.15);
+}
+
+/* Skip link for screen readers */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primary);
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 10000;
+    transition: top 0.3s;
+    font-weight: 500;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+.dashboard {
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .accessibility-menu {
+        top: 10px;
+        right: 10px;
+    }
+
+    .accessibility-panel {
+        right: -50px;
+        min-width: 250px;
+    }
+}
+/* Add this to global.css to fix table constraints */
+.table-container {
+    overflow: visible !important;
+}
+
+table {
+    overflow: visible !important;
+}
+
+tbody {
+    overflow: visible !important;
+}
+
+tr {
+    overflow: visible !important;
+}
+
+td {
+    overflow: visible !important;
+}

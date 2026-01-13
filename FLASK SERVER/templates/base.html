@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}ContactFlow Pro{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="ContactFlow Pro - Professional contact and department management system">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- Accessibility Menu -->
+    <div class="accessibility-menu">
+        <button class="accessibility-toggle" id="accessibilityToggle" aria-label="Accessibility settings" aria-expanded="false">
+            <i class="fas fa-universal-access"></i>
+        </button>
+        <div class="accessibility-panel" id="accessibilityPanel">
+            <div class="accessibility-option">
+                <h4>Theme</h4>
+                <div class="theme-buttons">
+                    <button class="accessibility-btn" data-theme="dark" aria-label="Dark theme">Dark</button>
+                    <button class="accessibility-btn" data-theme="light" aria-label="Light theme">Light</button>
+                    <button class="accessibility-btn" data-theme="high-contrast" aria-label="High contrast theme">High Contrast</button>
+                </div>
+            </div>
+
+            <div class="accessibility-option">
+                <h4>Color Vision</h4>
+                <div class="color-buttons">
+                    <button class="accessibility-btn" data-color="normal" aria-label="Normal color vision">Normal</button>
+                    <button class="accessibility-btn" data-color="protanopia" aria-label="Protanopia color blind mode">Protanopia</button>
+                    <button class="accessibility-btn" data-color="deuteranopia" aria-label="Deuteranopia color blind mode">Deuteranopia</button>
+                    <button class="accessibility-btn" data-color="tritanopia" aria-label="Tritanopia color blind mode">Tritanopia</button>
+                </div>
+            </div>
+
+            <div class="accessibility-option">
+                <h4>Font Size</h4>
+                <div class="font-controls">
+                    <button class="font-size-btn" id="fontDecrease" aria-label="Decrease font size">A-</button>
+                    <span class="font-size-display" id="fontSizeDisplay">100%</span>
+                    <button class="font-size-btn" id="fontIncrease" aria-label="Increase font size">A+</button>
+                </div>
+            </div>
+
+            <div class="accessibility-option">
+                <h4>Additional Features</h4>
+                <div class="font-buttons">
+                    <button class="accessibility-btn" id="toggleDyslexia" aria-label="Toggle dyslexia-friendly font">Dyslexia Font</button>
+                    <button class="accessibility-btn" id="toggleSimplified" aria-label="Toggle simplified layout">Simple Layout</button>
+                </div>
+            </div>
+
+            <div class="accessibility-option">
+                <button class="accessibility-btn" id="resetAccessibility" style="width: 100%;" aria-label="Reset all accessibility settings to default">
+                    Reset to Default
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="dashboard">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='global.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

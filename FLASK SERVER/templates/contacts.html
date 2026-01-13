@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}Contacts — ContactFlow Pro{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='contacts.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <div class="logo-text">
+                <h1>ContactFlow Pro</h1>
+            </div>
+        </div>
+        <div class="page-title">
+            <i class="fas fa-users"></i> Contacts Management
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/" class="breadcrumb-item">
+            <i class="fas fa-home"></i> Dashboard
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">
+            <i class="fas fa-users"></i> Contacts
+        </span>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="search-box">
+            <i class="fas fa-search" style="color: var(--gray);"></i>
+            <input id="searchInput" type="text" placeholder="Search by name, phone, or location...">
+        </div>
+        <div class="actions">
+            <button id="addContactBtn" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Contact
+            </button>
+            <button id="deleteSelectedBtn" class="btn btn-secondary">
+                <i class="fas fa-trash"></i> Delete Selected
+            </button>
+        </div>
+    </div>
+
+    <!-- Tables Container -->
+    <div class="tables-container">
+        <!-- Main Contacts Table -->
+        <div class="table-container">
+            <h3><i class="fas fa-users"></i> Contacts List</h3>
+            <table id="contactsTable">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>Index</th>
+                        <th>Status</th>
+                        <th style="text-align:left; padding-left:18px;">Name</th>
+                        <th>Phone Number</th>
+                        <th>Location</th>
+                        <th>Edit</th>
+                        <th>CV</th>
+                        <th>Map & Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   {% for row in data %}
+                   <tr>
+                       <td><input type="checkbox" class="rowCheckbox"></td>
+                       <td>c{{ loop.index }}</td>
+                       <td>
+                           <div class="status-dot {% if row.status == 'active' %}active{% elif row.status == 'inactive' %}inactive{% else %}waiting{% endif %}"
+                                title="{{ row.status|default('waiting')|title }}"></div>
+                       </td>
+                       <td style="text-align:left; padding-left:18px;">{{ row.name }}</td>
+                       <td>{{ row.phone }}</td>
+                       <td>{{ row.location|default('', true) }}</td>
+                       <td><button class="editBtn">✏️ Edit</button></td>
+                       <td>
+                           <button class="cvUploadBtn" data-phone="{{ row.phone }}">📝 Upload</button>
+                           <button class="cvViewBtn" data-name="{{ row.name }}">👁️ View</button>
+                       </td>
+                       <td>
+                           <button class="mapBtn" data-location="{{ row.location|default('', true) }}">📍 Map</button>
+                           <div class="distance-display">Calculating...</div>
+                       </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Interview Tracking Table -->
+        <div class="table-container">
+            <h3><i class="fas fa-calendar-alt"></i> Interview Tracking</h3>
+            <table id="interviewTable">
+                <thead>
+                    <tr>
+                        <th>Contact</th>
+                        <th>Interview</th>
+                        <th>Rating</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr data-phone="{{ row.phone }}">
+                        <td style="text-align:left; padding-left:18px;">{{ row.name }}</td>
+                        <td>
+                            <div class="interview-timeline" data-phone="{{ row.phone }}">
+                                <div class="timeline-progress"></div>
+                                <div class="timeline-marker" style="left: 0%;"></div>
+                            </div>
+                            <button class="scheduleBtn" data-phone="{{ row.phone }}">📅 Schedule</button>
+                        </td>
+                        <td>
+                            <div class="rating-dropdown">
+                                <div class="rating-display">
+                                    <span class="rating-stars">⭐⭐⭐</span>
+                                    <span>3 Stars</span>
+                                </div>
+                                <div class="rating-options">
+                                    <div class="rating-option" data-rating="1" data-stars="⭐">
+                                        <span>⭐</span>
+                                        <span>1 Star - Poor</span>
+                                    </div>
+                                    <div class="rating-option" data-rating="2" data-stars="⭐⭐">
+                                        <span>⭐⭐</span>
+                                        <span>2 Stars - Fair</span>
+                                    </div>
+                                    <div class="rating-option" data-rating="3" data-stars="⭐⭐⭐">
+                                        <span>⭐⭐⭐</span>
+                                        <span>3 Stars - Good</span>
+                                    </div>
+                                    <div class="rating-option" data-rating="4" data-stars="⭐⭐⭐⭐">
+                                        <span>⭐⭐⭐⭐</span>
+                                        <span>4 Stars - Very Good</span>
+                                    </div>
+                                    <div class="rating-option" data-rating="5" data-stars="⭐⭐⭐⭐⭐">
+                                        <span>⭐⭐⭐⭐⭐</span>
+                                        <span>5 Stars - Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="notesBtn" data-phone="{{ row.phone }}">📝 Notes</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-card">
+            <h3><i class="fas fa-user-plus"></i> Add / Edit Contact</h3>
+            <div class="field">
+                <input id="nameInput" type="text" placeholder="Name (max 30 characters)" maxlength="30">
+            </div>
+            <div class="field">
+                <input id="phoneInput" type="text" placeholder="Phone (10 digits, starts with 69)" maxlength="10" inputmode="numeric">
+            </div>
+            <div class="field">
+                <input id="locationInput" type="text" placeholder="Location" maxlength="100">
+            </div>
+            <div class="field">
+                <select id="statusSelect">
+                    <option value="waiting">Waiting 🟡</option>
+                    <option value="active">Active 🟢</option>
+                    <option value="inactive">Inactive 🔴</option>
+                </select>
+            </div>
+            <div class="actions">
+                <button id="saveContactBtn" class="btn btn-primary">Save Contact</button>
+                <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+            <div class="error" id="errorMsg"></div>
+        </div>
+    </div>
+
+    <!-- Schedule Interview Modal -->
+    <div class="modal" id="scheduleModal">
+        <div class="modal-card">
+            <h3><i class="fas fa-calendar-plus"></i> Schedule Interview</h3>
+            <div class="field">
+                <label style="color: var(--light); margin-bottom: 8px; display: block;">Contact:</label>
+                <input type="text" id="scheduleContactName" readonly style="background: rgba(255,255,255,0.1);">
+            </div>
+            <div class="field">
+                <label style="color: var(--light); margin-bottom: 8px; display: block;">Date & Time:</label>
+                <div class="datetime-input">
+                    <input type="datetime-local" id="interviewDateTime">
+                </div>
+            </div>
+            <div class="field">
+                <label style="color: var(--light); margin-bottom: 8px; display: block;">Notes:</label>
+                <textarea id="scheduleNotes" placeholder="Add any notes about the interview..." rows="3"></textarea>
+            </div>
+            <div class="actions">
+                <button id="saveScheduleBtn" class="btn btn-primary">Schedule Interview</button>
+                <button id="cancelScheduleBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Modal -->
+    <div class="modal notes-modal" id="notesModal">
+        <div class="modal-card">
+            <h3><i class="fas fa-sticky-note"></i> Interview Notes</h3>
+            <div class="field">
+                <label style="color: var(--light); margin-bottom: 8px; display: block;">Contact:</label>
+                <input type="text" id="notesContactName" readonly style="background: rgba(255,255,255,0.1);">
+            </div>
+            <div class="field">
+                <label style="color: var(--light); margin-bottom: 8px; display: block;">Notes:</label>
+                <textarea id="interviewNotes" class="notes-content" placeholder="Write your interview notes here..." rows="10"></textarea>
+            </div>
+            <div class="actions">
+                <button id="saveNotesBtn" class="btn btn-primary">Save Notes</button>
+                <button id="cancelNotesBtn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="cvFileInput" accept="application.pdf" style="display:none;">
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Pass Flask template data to JavaScript
+    window.contactsData = {{ data | tojson }};
+</script>
+<script src="{{ url_for('static', filename='contacts.js') }}"></script>
+{% endblock %}
